@@ -1,0 +1,39 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: AWS Report DashBoard Backend
+
+Globals:
+  Api:
+    # API Gateway regional endpoints
+    EndpointConfiguration: REGIONAL
+
+Resources:
+  AwsReportDashboardFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: com.lgcns.awsReportDashboard.StreamLambdaHandler::handleRequest
+      Runtime: java17
+      CodeUri: .
+      MemorySize: 1512
+      AutoPublishAlias: prod
+      DeploymentPreference:
+        Type: AllAtOnce
+      SnapStart:
+        ApplyOn: PublishedVersions
+      Policies: AWSLambdaBasicExecutionRole
+      Timeout: 60
+      Events:
+        HttpApiEvent:
+          Type: Api
+          Properties:
+            TimeoutInMillis: 20000
+#            PayloadFormatVersion: '1.0'
+            Path: /{proxy+}
+            Method: ANY
+
+#Outputs:
+#  AwsReportDashboardApi:
+#    Description: URL for application
+#    Value: !Sub 'https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/pets'
+#    Export:
+#      Name: SpringBootPetStoreApi

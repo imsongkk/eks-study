@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mock-was-server-deployment
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mock-was-server
+  template:
+    metadata:
+      name: mock-was-server-pod
+      labels:
+        app: mock-was-server
+    spec:
+      containers:
+        - name: mock-was-server
+          image: 813990269506.dkr.ecr.ap-northeast-3.amazonaws.com/eks-study-mock-was:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              cpu: 200m
+            requests:
+              cpu: 100m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mock-was-server-svc-lb
+spec:
+  selector:
+    app: mock-was-server
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer

@@ -1,0 +1,11 @@
+version = 0.1
+[default.deploy.parameters]
+stack_name = "aws-report-dashboard-be"
+resolve_s3 = true
+s3_prefix = "aws-report-dashboard-be"
+region = "ap-northeast-2"
+profile = "awsReportDashboard"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+disable_rollback = true
+image_repositories = []

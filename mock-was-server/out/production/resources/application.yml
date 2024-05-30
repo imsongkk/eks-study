@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: mockWasServer
+
+logging:
+  level:
+    root: info
